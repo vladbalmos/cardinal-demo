@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="x-ua-compatible" content="IE=Edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+
+    <title>Cardinal Demo</title>
+
+    <link rel="icon" type="image/png" sizes="96x96" href="/assets/images/privatesky.png">
+    <link rel="manifest" href="/manifest.json">
+    <link href="/assets/css/main.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+    <div class="container">
+        <psk-container controller-name="OrganizationsIndexController">
+            <h1>Organizations</h1>
+            <psk-for-each data-view-model="organizations">
+                <p><psk-button label="@name" button-class="btn btn-info btn-sm" event-name="manage-clusters" event-data="@id"></psk-button></p>
+            </psk-for-each>
+            <psk-button label="Add Organization" button-class="btn btn-primary btn-sm" event-name="edit-organization" event-data="0" event-dispatcher="document"></psk-button>
+        </psk-container>
+
+        <psk-container controller-name="EditOrganizationController">
+            <h1></h1>
+
+            <psk-form-row>
+                <psk-label view-model="name"></psk-label>
+                <psk-text-input view-model="name"></psk-text-input>
+            </psk-form-row>
+        </psk-container>
+    </div>
+
+    <script src="/scripts/browserSupport.js"></script>
+
+    <script src="/scripts/privatesky/webshims.js"></script>
+    <script src="/scripts/privatesky/bindableModel.js"></script>
+
+    <script type="module" src="/cardinal/cardinal.esm.js"></script>
+    <script nomodule src="/cardinal.js"></script>
+    <script>
+        globalConfig = {
+            theme: 'default'
+        }
+    </script>
+</body>
+
+</html>

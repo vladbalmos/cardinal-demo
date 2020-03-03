@@ -1,0 +1,15 @@
+{
+    "name": "privatesky-xyz",
+    "private": true,
+    "version": "0.0.2",
+    "description": "PrivateSky Development Hub",
+    "scripts": {
+        "generate-sitemap": "node -r esm ./bin/generate-sitemap.js https://privatesky.xyz",
+        "web-server": "ws --spa ./index.html"
+    },
+    "devDependencies": {
+        "local-web-server": "^3.0.7",
+        "esm": "^3.2.25"
+    },
+    "license": "MIT"
+}
