@@ -79,21 +79,22 @@
     /* Used max-content value to have backgroud-color only for content, not for entire occupied space */
     width: max-content;
     background-color: #dfe5f9;
-    padding:5px;
+    padding: 5px;
 }
 
 .api-subtitle .psk-card .card-header h5 {
     background-color: initial;
     font-size: 1rem;
-    padding:0 5px 0 0;
+    padding: 0 5px 0 0;
     font-weight: 600;
-    border:1px solid #cfd9f6;
+    border: 1px solid #cfd9f6;
 }
-.api-subtitle .psk-card .card-header h5::before{
-    content:'...';
-    background-color:#cfd9f6;
-    color:#cfd9f6;
-    margin-right:3px;
+
+.api-subtitle .psk-card .card-header h5::before {
+    content: '...';
+    background-color: #cfd9f6;
+    color: #cfd9f6;
+    margin-right: 3px;
 }
 
 
@@ -149,8 +150,8 @@
     text-align: left;
 }
 
-.table-of-content .psk-card ul ul li::before{
-    content:"";
+.table-of-content .psk-card ul ul li::before {
+    content: "";
 }
 
 
@@ -188,7 +189,7 @@
     list-style-type: none;
 }
 
-ol li::before {
+ol>li::before {
     content: counter(li) ". ";
     counter-increment: li;
     color: #4C71DE;
