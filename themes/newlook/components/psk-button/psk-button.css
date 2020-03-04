@@ -1,26 +1,41 @@
 @import url(../../../commons/bootstrap/css/bootstrap.min.css);
-.btn.btn-primary {
+.btn.btn-primary,
+.submit {
     background-color: #4C71DE;
     border-style: none;
     box-shadow: rgba(53, 79, 155, 0.35) 0px 15px 30px -12px;
     padding: 8px 16px;
     margin-right: 10px;
     border-radius: 5px;
-    margin-bottom: 1rem;;
+    margin-bottom: 1rem;
+    border:1px solid #4C71DE;
+    color:white;
 }
 
 .btn.btn-primary:focus,
-.btn.btn-primary:not(:disabled):not(.disabled):active {
+.btn.btn-primary:not(:disabled):not(.disabled):active ,
+.submit{
     background-color: #354F9B;
     border-style: none;
 }
 
-.btn.btn-primary:hover {
+.btn.btn-primary:hover,
+.submit:hover {
     background-color: #5E7FE1;
     border-style: none;
     box-shadow: none;
 }
-
+.submit{
+    margin-left:-15px;
+}
+.reset-form{
+    background-color: white;
+    border:1px solid #4C71DE;
+    border-radius: 5px;
+    margin-bottom: 1rem;
+    color: #4C71DE;
+    padding: 8px 16px;
+}
 
 /* first page */
 

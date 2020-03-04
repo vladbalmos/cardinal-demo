@@ -1,6 +1,6 @@
 {
-  "name": "PrivateSky",
-  "short_name": "PSK",
+  "name": "Blockchain Platforms Deployment",
+  "short_name": "BPD",
   "start_url": "/",
   "display": "standalone",
   "icons": [{

@@ -1,1 +1,0 @@
-System.register(["./p-0f0da370.system.js","./p-5f414978.system.js"],function(t){"use strict";var s;return{setters:[function(t){s=t.A},function(){}],execute:function(){t("i",e);function e(t){s.injectProps(t,["history","location"])}}}});
