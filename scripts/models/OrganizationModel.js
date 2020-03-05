@@ -39,13 +39,27 @@ export default class OrganizationModel {
 
     /**
      * @param {string} uid
-     * @return {string|undefined}
+     * @return {object|undefined}
      */
-    getOrganizationName(uid) {
+    getOrganization(uid) {
         for (let org of this.data.organizations) {
             if (org.uid != uid) {
                 continue;
             }
+            return org;
+        }
+
+        return;
+    }
+
+    /**
+     * @param {string} uid
+     * @return {string|undefined}
+     */
+    getOrganizationName(uid) {
+        const org = this.getOrganization(uid);
+
+        if (org) {
             return org.name;
         }
 
@@ -117,7 +131,19 @@ export default class OrganizationModel {
      * @param {callback} callback
      */
     _updateOrganization(callback) {
-        console.log('Updating organization', callback);
+        const editFormData = this.data.editForm;
+        const org = this.getOrganization(editFormData.id);
+
+        if (!org) {
+            return callback(new Error("Organization not found"));
+        }
+
+        if (!editFormData.name.value) {
+            return callback(new Error('Missing organization name'));
+        }
+
+        org.name = editFormData.name.value;
+        callback(null, org);
     }
 
     /**

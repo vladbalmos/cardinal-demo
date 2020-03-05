@@ -21,7 +21,7 @@ export default class OrganizationsController extends BindableController {
 
             const orgUid = e.data;
             this.orgModel.populateFormData(orgUid);
-            // How do I redirect to the edit form controller from here?
+            this._redirect('/?organization/edit');
         });
 
         // Remove organization request
@@ -68,5 +68,17 @@ export default class OrganizationsController extends BindableController {
         }
 
         // How do I redirect to homepage from here?
+        this._redirect('/?home');
+    }
+
+    /**
+     * Redirect to another url
+     *
+     * @param {string} url
+     */
+    _redirect(url) {
+        const redirectEl = document.createElement('psk-route-redirect');
+        redirectEl.setAttribute('url', url);
+        this._element.appendChild(redirectEl);
     }
 }
