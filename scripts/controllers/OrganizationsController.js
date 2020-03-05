@@ -56,7 +56,7 @@ export default class OrganizationsController extends BindableController {
     }
 
     /**
-     * Called after model tries to save a new
+     * Called after model attempts to save a new
      * or existing organization
      * @param {Error} err
      * @param {object} data
