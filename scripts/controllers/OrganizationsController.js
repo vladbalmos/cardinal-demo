@@ -21,6 +21,7 @@ export default class OrganizationsController extends BindableController {
 
             const orgUid = e.data;
             this.orgModel.populateFormData(orgUid);
+            // How do I redirect to the edit form controller from here?
         });
 
         // Remove organization request
@@ -65,5 +66,7 @@ export default class OrganizationsController extends BindableController {
             // TODO: show validation error
             return;
         }
+
+        // How do I redirect to homepage from here?
     }
 }
