@@ -32,6 +32,10 @@ export default class OrganizationModel {
                     placeholder: '',
                     value: '',
                 },
+                clusterConfiguration: [{
+                    key: 'Test',
+                    value: 'Something else'
+                }],
                 id: ''
             }
         }

@@ -6,12 +6,18 @@ export default class OrganizationsController extends BindableController {
     constructor(element) {
         super(element);
 
+        this.feedbackEmitter = null;
+
         // Model is singleton in order to preserve state across
         // different same controller instances
         this.orgModel = OrganizationModel.getInstance();
 
         this.model = this.orgModel.registerBindings((data) => {
             return this.setModel(data);
+        });
+
+        this.receive('openFeedback', (e) => {
+            this.feedbackEmitter = e.detail;
         });
 
         // Edit organization request
@@ -31,7 +37,6 @@ export default class OrganizationsController extends BindableController {
             const orgUid = e.data;
             this._removeOrganization(orgUid);
         });
-
         element.addEventListener('submit', (e) => {
             e.preventDefault();
             e.stopImmediatePropagation();
@@ -63,12 +68,24 @@ export default class OrganizationsController extends BindableController {
      */
     _onSaveOrganization(err, data) {
         if (err) {
-            // TODO: show validation error
+            this._showError(err);
             return;
         }
 
         // How do I redirect to homepage from here?
         this._redirect('/?home');
+    }
+
+    _showError(err) {
+        let errMessage;
+        if (err instanceof Error) {
+            errMessage = err.message;
+        } else if (typeof err === 'object') {
+            errMessage = err.toString();
+        } else {
+            errMessage = err;
+        }
+        this.feedbackEmitter(errMessage, "Validation Error", "alert-danger");
     }
 
     /**
@@ -77,8 +94,18 @@ export default class OrganizationsController extends BindableController {
      * @param {string} url
      */
     _redirect(url) {
-        const redirectEl = document.createElement('psk-route-redirect');
-        redirectEl.setAttribute('url', url);
-        this._element.appendChild(redirectEl);
+        this._render('psk-route-redirect', { url });
+    }
+
+    _render(tag, attributes) {
+        attributes = attributes || {};
+        const el = document.createElement(tag);
+        for (const attr in attributes) {
+            const value = attributes[attr];
+            el.setAttribute(attr, value);
+        }
+
+        this._element.appendChild(el);
+        return el;
     }
 }
