@@ -9,6 +9,10 @@ dist/
 log.txt
 *.sublime-project
 *.sublime-workspace
+cardinal-dist
+cardinal-dist.js
+themes/commons-dist
+themes/default-dist
 
 .idea/
 .vscode/
