@@ -1,27 +1,6 @@
 
 'use strict';
-(function () {
-  var doc = document;
-  var currentScript = doc.currentScript;
-
-  // !currentScript
-  // IE11 since it doesnt support document.currentScript
-
-  // !currentScript.hasAttribute('nomodule')
-  // Bundled or doesn't have "nomodule" attribute
-
-  // !('onbeforeload' in currentScript)
-  // Not Safari
-
-  // ('onbeforeload' in currentScript) && !history.scrollRestoration
-  // Safari 10.x supports "module" but does not support async/await
-  // so it should use the es5/system build while Safari >=11 should use esm build
-  // 'onbeforeload' in currentScript only true for Safari
-  // history.scrollRestoration support added in Safari 11
-
-  if (!currentScript || !currentScript.hasAttribute('nomodule') || !('onbeforeload' in currentScript) || (('onbeforeload' in currentScript) && !history.scrollRestoration)) {
-
-    /*!
+/*!
 es6-promise - a tiny implementation of Promises/A+.
 Copyright (c) 2014 Yehuda Katz, Tom Dale, Stefan Penner and contributors (Conversion to ES6 API by Jake Archibald)
 Licensed under MIT license
@@ -44,6 +23,7 @@ v4.2.8
 
 (function(){
   /*
+
     Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
     This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
     The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
@@ -88,7 +68,7 @@ if (typeof document.baseURI !== 'string') {
     configurable: true,
     get: function () {
       var base = document.querySelector('base');
-      if (base && base.href) {
+      if (base) {
         return base.href;
       }
       return document.URL;
@@ -137,23 +117,7 @@ Creative Commons Zero v1.0 Universal
 /*!
 Element.getRootNode()
 */
-(function(c){function d(a){a=b(a);return a&&11===a.nodeType?d(a.host):a}function b(a){return a&&a.parentNode?b(a.parentNode):a}"function"!==typeof c.getRootNode&&(c.getRootNode=function(a){return a&&a.composed?d(this):b(this)})})(Element.prototype);
-
-/*!
-Element.isConnected()
-*/
-(function(prototype) {
-  if (!("isConnected" in prototype)) {
-    Object.defineProperty(prototype, 'isConnected', {
-      configurable: true,
-      enumerable: true,
-      get: function() {
-        var root = this.getRootNode({composed: true});
-        return root && root.nodeType === 9;
-      }
-    })
-  }
-})(Element.prototype);
+(function(c){function d(a){a=b(a);return 11===a.nodeType?d(a.host):a}function b(a){return a.parentNode?b(a.parentNode):a}"function"!==typeof c.getRootNode&&(c.getRootNode=function(a){return a&&a.composed?d(this):b(this)})})(Element.prototype);
 
 /*!
 Element.remove()
@@ -164,30 +128,6 @@ Element.remove()
 Element.classList
 */
 !function(e){'classList'in e||Object.defineProperty(e,"classList",{get:function(){var e=this,t=(e.getAttribute("class")||"").replace(/^\s+|\s$/g,"").split(/\s+/g);function n(){t.length>0?e.setAttribute("class",t.join(" ")):e.removeAttribute("class")}return""===t[0]&&t.splice(0,1),t.toggle=function(e,i){void 0!==i?i?t.add(e):t.remove(e):-1!==t.indexOf(e)?t.splice(t.indexOf(e),1):t.push(e),n()},t.add=function(){for(var e=[].slice.call(arguments),i=0,s=e.length;i<s;i++)-1===t.indexOf(e[i])&&t.push(e[i]);n()},t.remove=function(){for(var e=[].slice.call(arguments),i=0,s=e.length;i<s;i++)-1!==t.indexOf(e[i])&&t.splice(t.indexOf(e[i]),1);n()},t.item=function(e){return t[e]},t.contains=function(e){return-1!==t.indexOf(e)},t.replace=function(e,i){-1!==t.indexOf(e)&&t.splice(t.indexOf(e),1,i),n()},t.value=e.getAttribute("class")||"",t}})}(Element.prototype);
-
-/*!
-DOMTokenList
-*/
-(function(prototype){
-  try {
-    document.body.classList.add();
-  } catch (e) {
-    var originalAdd = prototype.add;
-    var originalRemove = prototype.remove;
-
-    prototype.add = function() {
-      for (var i = 0; i < arguments.length; i++) {
-        originalAdd.call(this, arguments[i]);
-      }
-    };
-
-    prototype.remove = function() {
-      for (var i = 0; i < arguments.length; i++) {
-        originalRemove.call(this, arguments[i]);
-      }
-    };
-  }
-}(DOMTokenList.prototype));
 
 (function() {
   if (
@@ -211,9 +151,8 @@ DOMTokenList
 /**
  * SystemJS 4.0.2
  * MANUAL PATCH: remove script.crossOrigin = "anonymous"
- * MANUAL PATCH: add conditionally apply, n.System=n.System||new u
  */
-!function(){var e="undefined"!=typeof self,n=e?self:global;var t;if("undefined"!=typeof document){var e=document.querySelector("base[href]");e&&(t=e.href)}if(!t&&"undefined"!=typeof location){var e=(t=location.href.split("#")[0].split("?")[0]).lastIndexOf("/");-1!==e&&(t=t.slice(0,e+1))}var r=/\\/g,o="undefined"!=typeof Symbol,i=o&&Symbol.toStringTag,c=o?Symbol():"@";function u(){this[c]={}}var s=u.prototype;var l;s.import=function(e,n){var t=this;return Promise.resolve(t.resolve(e,n)).then(function(e){var n=function e(n,t,r){var o=n[c][t];if(o)return o;var u=[],s=Object.create(null);i&&Object.defineProperty(s,i,{value:"Module"});var l=Promise.resolve().then(function(){return n.instantiate(t,r)}).then(function(e){if(!e)throw Error("Module "+t+" did not instantiate");var r=e[1](function(e,n){o.h=!0;var t=!1;if("object"!=typeof e)e in s&&s[e]===n||(s[e]=n,t=!0);else for(var n in e){var r=e[n];n in s&&s[n]===r||(s[n]=r,t=!0)}if(t)for(var e=0;e<u.length;e++)u[e](s);return n},2===e[1].length?{import:function(e){return n.import(e,t)},meta:n.createContext(t)}:void 0);return o.e=r.execute||function(){},[e[0],r.setters||[]]});var f=l.then(function(r){return Promise.all(r[0].map(function(o,i){var c=r[1][i];return Promise.resolve(n.resolve(o,t)).then(function(r){var o=e(n,r,t);return Promise.resolve(o.I).then(function(){return c&&(o.i.push(c),!o.h&&o.I||c(o.n)),o})})})).then(function(e){o.d=e})});return f.catch(function(e){o.e=null,o.er=e}),o=n[c][t]={id:t,i:u,n:s,I:l,L:f,h:!1,d:void 0,e:void 0,er:void 0,E:void 0,C:void 0}}(t,e);return n.C||function(e,n){return n.C=function e(n,t,r){if(!r[t.id])return r[t.id]=!0,Promise.resolve(t.L).then(function(){return Promise.all(t.d.map(function(t){return e(n,t,r)}))})}(e,n,{}).then(function(){return function e(n,t,r){if(r[t.id])return;if(r[t.id]=!0,!t.e){if(t.er)throw t.er;return t.E?t.E:void 0}var o;return t.d.forEach(function(t){{var i=e(n,t,r);i&&(o=o||[]).push(i)}}),o?Promise.all(o).then(i):i();function i(){try{var e=t.e.call(f);if(e)return e=e.then(function(){t.C=t.n,t.E=null}),t.E=t.E||e;t.C=t.n}catch(e){throw t.er=e,e}finally{t.L=t.I=void 0,t.e=null}}}(e,n,{})}).then(function(){return n.n})}(t,n)})},s.createContext=function(e){return{url:e}},s.register=function(e,n){l=[e,n]},s.getRegister=function(){var e=l;return l=void 0,e};var f=Object.freeze(Object.create(null));n.System=n.System||new u;var d=s.register;s.register=function(e,n){d.call(this,e,n)},s.instantiate=function(e,n){var t=this;return".json"===e.substr(-5)?fetch(e).then(function(e){return e.text()}).then(function(e){return[[],function(n){return{execute:function(){n("default",JSON.parse(e))}}}]}):new Promise(function(r,o){var i;function c(n){n.filename===e&&(i=n.error)}window.addEventListener("error",c);var u=document.createElement("script");u.charset="utf-8",u.async=!0,u.addEventListener("error",function(){window.removeEventListener("error",c),o(Error("Error loading "+e+(n?" from "+n:"")))}),u.addEventListener("load",function(){window.removeEventListener("error",c),document.head.removeChild(u),i?o(i):r(t.getRegister())}),u.src=e,document.head.appendChild(u)})},e&&"function"==typeof importScripts&&(s.instantiate=function(e){var n=this;return new Promise(function(t,r){try{importScripts(e)}catch(e){r(e)}t(n.getRegister())})}),s.resolve=function(e,n){var o=function(e,n){if(-1!==e.indexOf("\\")&&(e=e.replace(r,"/")),"/"===e[0]&&"/"===e[1])return n.slice(0,n.indexOf(":")+1)+e;if("."===e[0]&&("/"===e[1]||"."===e[1]&&("/"===e[2]||2===e.length&&(e+="/"))||1===e.length&&(e+="/"))||"/"===e[0]){var t=n.slice(0,n.indexOf(":")+1);var r;if(r="/"===n[t.length+1]?"file:"!==t?(r=n.slice(t.length+2)).slice(r.indexOf("/")+1):n.slice(8):n.slice(t.length+("/"===n[t.length])),"/"===e[0])return n.slice(0,n.length-r.length-1)+e;var o=r.slice(0,r.lastIndexOf("/")+1)+e,i=[];var c=-1;for(var e=0;e<o.length;e++)-1!==c?"/"===o[e]&&(i.push(o.slice(c,e+1)),c=-1):"."===o[e]?"."!==o[e+1]||"/"!==o[e+2]&&e+2!==o.length?"/"===o[e+1]||e+1===o.length?e+=1:c=e:(i.pop(),e+=2):c=e;return-1!==c&&i.push(o.slice(c)),n.slice(0,n.length-r.length)+i.join("")}}(e,n||t);if(!o){if(-1!==e.indexOf(":"))return Promise.resolve(e);throw Error('Cannot resolve "'+e+(n?'" from '+n:'"'))}return Promise.resolve(o)}}();
+!function(){const e="undefined"!=typeof self,n=e?self:global;let t;if("undefined"!=typeof document){const e=document.querySelector("base[href]");e&&(t=e.href)}if(!t&&"undefined"!=typeof location){const e=(t=location.href.split("#")[0].split("?")[0]).lastIndexOf("/");-1!==e&&(t=t.slice(0,e+1))}const r=/\\/g,o="undefined"!=typeof Symbol,i=o&&Symbol.toStringTag,c=o?Symbol():"@";function u(){this[c]={}}const s=u.prototype;let l;s.import=function(e,n){const t=this;return Promise.resolve(t.resolve(e,n)).then(function(e){const n=function e(n,t,r){let o=n[c][t];if(o)return o;const u=[],s=Object.create(null);i&&Object.defineProperty(s,i,{value:"Module"});let l=Promise.resolve().then(function(){return n.instantiate(t,r)}).then(function(e){if(!e)throw Error("Module "+t+" did not instantiate");const r=e[1](function(e,n){o.h=!0;let t=!1;if("object"!=typeof e)e in s&&s[e]===n||(s[e]=n,t=!0);else for(let n in e){let r=e[n];n in s&&s[n]===r||(s[n]=r,t=!0)}if(t)for(let e=0;e<u.length;e++)u[e](s);return n},2===e[1].length?{import:function(e){return n.import(e,t)},meta:n.createContext(t)}:void 0);return o.e=r.execute||function(){},[e[0],r.setters||[]]});const f=l.then(function(r){return Promise.all(r[0].map(function(o,i){const c=r[1][i];return Promise.resolve(n.resolve(o,t)).then(function(r){const o=e(n,r,t);return Promise.resolve(o.I).then(function(){return c&&(o.i.push(c),!o.h&&o.I||c(o.n)),o})})})).then(function(e){o.d=e})});return f.catch(function(e){o.e=null,o.er=e}),o=n[c][t]={id:t,i:u,n:s,I:l,L:f,h:!1,d:void 0,e:void 0,er:void 0,E:void 0,C:void 0}}(t,e);return n.C||function(e,n){return n.C=function e(n,t,r){if(!r[t.id])return r[t.id]=!0,Promise.resolve(t.L).then(function(){return Promise.all(t.d.map(function(t){return e(n,t,r)}))})}(e,n,{}).then(function(){return function e(n,t,r){if(r[t.id])return;if(r[t.id]=!0,!t.e){if(t.er)throw t.er;return t.E?t.E:void 0}let o;return t.d.forEach(function(t){{const i=e(n,t,r);i&&(o=o||[]).push(i)}}),o?Promise.all(o).then(i):i();function i(){try{let e=t.e.call(f);if(e)return e=e.then(function(){t.C=t.n,t.E=null}),t.E=t.E||e;t.C=t.n}catch(e){throw t.er=e,e}finally{t.L=t.I=void 0,t.e=null}}}(e,n,{})}).then(function(){return n.n})}(t,n)})},s.createContext=function(e){return{url:e}},s.register=function(e,n){l=[e,n]},s.getRegister=function(){const e=l;return l=void 0,e};const f=Object.freeze(Object.create(null));n.System=new u;const d=s.register;s.register=function(e,n){d.call(this,e,n)},s.instantiate=function(e,n){const t=this;return".json"===e.substr(-5)?fetch(e).then(function(e){return e.text()}).then(function(e){return[[],function(n){return{execute:function(){n("default",JSON.parse(e))}}}]}):new Promise(function(r,o){let i;function c(n){n.filename===e&&(i=n.error)}window.addEventListener("error",c);const u=document.createElement("script");u.charset="utf-8",u.async=!0,u.addEventListener("error",function(){window.removeEventListener("error",c),o(Error("Error loading "+e+(n?" from "+n:"")))}),u.addEventListener("load",function(){window.removeEventListener("error",c),document.head.removeChild(u),i?o(i):r(t.getRegister())}),u.src=e,document.head.appendChild(u)})},e&&"function"==typeof importScripts&&(s.instantiate=function(e){const n=this;return new Promise(function(t,r){try{importScripts(e)}catch(e){r(e)}t(n.getRegister())})}),s.resolve=function(e,n){const o=function(e,n){if(-1!==e.indexOf("\\")&&(e=e.replace(r,"/")),"/"===e[0]&&"/"===e[1])return n.slice(0,n.indexOf(":")+1)+e;if("."===e[0]&&("/"===e[1]||"."===e[1]&&("/"===e[2]||2===e.length&&(e+="/"))||1===e.length&&(e+="/"))||"/"===e[0]){const t=n.slice(0,n.indexOf(":")+1);let r;if(r="/"===n[t.length+1]?"file:"!==t?(r=n.slice(t.length+2)).slice(r.indexOf("/")+1):n.slice(8):n.slice(t.length+("/"===n[t.length])),"/"===e[0])return n.slice(0,n.length-r.length-1)+e;const o=r.slice(0,r.lastIndexOf("/")+1)+e,i=[];let c=-1;for(let e=0;e<o.length;e++)-1!==c?"/"===o[e]&&(i.push(o.slice(c,e+1)),c=-1):"."===o[e]?"."!==o[e+1]||"/"!==o[e+2]&&e+2!==o.length?"/"===o[e+1]||e+1===o.length?e+=1:c=e:(i.pop(),e+=2):c=e;return-1!==c&&i.push(o.slice(c)),n.slice(0,n.length-r.length)+i.join("")}}(e,n||t);if(!o){if(-1!==e.indexOf(":"))return Promise.resolve(e);throw Error('Cannot resolve "'+e+(n?'" from '+n:'"'))}return Promise.resolve(o)}}();
 
 /*
 Extremely simple css parser. Intended to be not more than what we need
@@ -650,20 +589,16 @@ function parseCSS(original) {
     };
 }
 function addGlobalStyle(globalScopes, styleEl) {
-    if (globalScopes.some(function (css) { return css.styleEl === styleEl; })) {
-        return false;
-    }
-    var css = parseCSS(styleEl.textContent);
+    var css = parseCSS(styleEl.innerHTML);
     css.styleEl = styleEl;
     globalScopes.push(css);
-    return true;
 }
 function updateGlobalScopes(scopes) {
     var selectors = getSelectorsForScopes(scopes);
     var props = resolveValues(selectors);
     scopes.forEach(function (scope) {
         if (scope.usesCssVars) {
-            scope.styleEl.textContent = executeTemplate(scope.template, props);
+            scope.styleEl.innerHTML = executeTemplate(scope.template, props);
         }
     });
 }
@@ -674,9 +609,9 @@ function reScope(scope, scopeId) {
             : segment;
     });
     var selectors = scope.selectors.map(function (sel) {
-        return Object.assign(Object.assign({}, sel), { selector: replaceScope(sel.selector, scope.scopeId, scopeId) });
+        return Object.assign({}, sel, { selector: replaceScope(sel.selector, scope.scopeId, scopeId) });
     });
-    return Object.assign(Object.assign({}, scope), { template: template,
+    return Object.assign({}, scope, { template: template,
         selectors: selectors,
         scopeId: scopeId });
 }
@@ -689,31 +624,21 @@ function replaceAll(input, find, replace) {
 }
 function loadDocument(doc, globalScopes) {
     loadDocumentStyles(doc, globalScopes);
-    return loadDocumentLinks(doc, globalScopes).then(function () {
-        updateGlobalScopes(globalScopes);
-    });
-}
-function startWatcher(doc, globalScopes) {
-    var mutation = new MutationObserver(function () {
-        if (loadDocumentStyles(doc, globalScopes)) {
-            updateGlobalScopes(globalScopes);
-        }
-    });
-    mutation.observe(document.head, { childList: true });
+    return loadDocumentLinks(doc, globalScopes);
 }
 function loadDocumentLinks(doc, globalScopes) {
     var promises = [];
-    var linkElms = doc.querySelectorAll('link[rel="stylesheet"][href]:not([data-no-shim])');
+    var linkElms = doc.querySelectorAll('link[rel="stylesheet"][href]');
     for (var i = 0; i < linkElms.length; i++) {
         promises.push(addGlobalLink(doc, globalScopes, linkElms[i]));
     }
     return Promise.all(promises);
 }
 function loadDocumentStyles(doc, globalScopes) {
-    var styleElms = Array.from(doc.querySelectorAll('style:not([data-styles]):not([data-no-shim])'));
-    return styleElms
-        .map(function (style) { return addGlobalStyle(globalScopes, style); })
-        .some(Boolean);
+    var styleElms = doc.querySelectorAll('style:not([data-styles])');
+    for (var i = 0; i < styleElms.length; i++) {
+        addGlobalStyle(globalScopes, styleElms[i]);
+    }
 }
 function addGlobalLink(doc, globalScopes, linkElm) {
     var url = linkElm.href;
@@ -724,7 +649,7 @@ function addGlobalLink(doc, globalScopes, linkElm) {
             }
             var styleEl = doc.createElement('style');
             styleEl.setAttribute('data-styles', '');
-            styleEl.textContent = text;
+            styleEl.innerHTML = text;
             addGlobalStyle(globalScopes, styleEl);
             linkElm.parentNode.insertBefore(styleEl, linkElm);
             linkElm.remove();
@@ -748,7 +673,7 @@ function hasCssVariables(css) {
     return css.indexOf('var(') > -1 || CSS_VARIABLE_REGEXP.test(css);
 }
 // This regexp find all url() usages with relative urls
-var CSS_URL_REGEXP = /url[\s]*\([\s]*['"]?(?!(?:https?|data)\:|\/)([^\'\"\)]*)[\s]*['"]?\)[\s]*/gim;
+var CSS_URL_REGEXP = /url[\s]*\([\s]*['"]?(?![http|/])([^\'\"\)]*)[\s]*['"]?\)[\s]*/gim;
 function hasRelativeUrls(css) {
     CSS_URL_REGEXP.lastIndex = 0;
     return CSS_URL_REGEXP.test(css);
@@ -773,22 +698,14 @@ var CustomStyle = /** @class */ (function () {
         this.hostScopeMap = new WeakMap();
         this.globalScopes = [];
         this.scopesMap = new Map();
-        this.didInit = false;
     }
     CustomStyle.prototype.initShim = function () {
         var _this = this;
-        if (this.didInit) {
-            return Promise.resolve();
-        }
-        else {
-            this.didInit = true;
-            return new Promise(function (resolve) {
-                _this.win.requestAnimationFrame(function () {
-                    startWatcher(_this.doc, _this.globalScopes);
-                    loadDocument(_this.doc, _this.globalScopes).then(function () { return resolve(); });
-                });
+        return new Promise(function (resolve) {
+            _this.win.requestAnimationFrame(function () {
+                loadDocument(_this.doc, _this.globalScopes).then(function () { return resolve(); });
             });
-        }
+        });
     };
     CustomStyle.prototype.addLink = function (linkEl) {
         var _this = this;
@@ -797,9 +714,8 @@ var CustomStyle = /** @class */ (function () {
         });
     };
     CustomStyle.prototype.addGlobalStyle = function (styleEl) {
-        if (addGlobalStyle(this.globalScopes, styleEl)) {
-            this.updateGlobal();
-        }
+        addGlobalStyle(this.globalScopes, styleEl);
+        this.updateGlobal();
     };
     CustomStyle.prototype.createHostStyle = function (hostEl, cssScopeId, cssText, isScoped) {
         if (this.hostScopeMap.has(hostEl)) {
@@ -807,15 +723,14 @@ var CustomStyle = /** @class */ (function () {
         }
         var baseScope = this.registerHostTemplate(cssText, cssScopeId, isScoped);
         var styleEl = this.doc.createElement('style');
-        styleEl.setAttribute('data-no-shim', '');
         if (!baseScope.usesCssVars) {
             // This component does not use (read) css variables
-            styleEl.textContent = cssText;
+            styleEl.innerHTML = cssText;
         }
         else if (isScoped) {
             // This component is dynamic: uses css var and is scoped
             styleEl['s-sc'] = cssScopeId = baseScope.scopeId + "-" + this.count;
-            styleEl.textContent = '/*needs update*/';
+            styleEl.innerHTML = '/*needs update*/';
             this.hostStyleMap.set(hostEl, styleEl);
             this.hostScopeMap.set(hostEl, reScope(baseScope, cssScopeId));
             this.count++;
@@ -824,7 +739,7 @@ var CustomStyle = /** @class */ (function () {
             // This component uses css vars, but it's no-encapsulation (global static)
             baseScope.styleEl = styleEl;
             if (!baseScope.usesCssVars) {
-                styleEl.textContent = executeTemplate(baseScope.template, {});
+                styleEl.innerHTML = executeTemplate(baseScope.template, {});
             }
             this.globalScopes.push(baseScope);
             this.updateGlobal();
@@ -847,7 +762,7 @@ var CustomStyle = /** @class */ (function () {
             if (styleEl) {
                 var selectors = getActiveSelectors(hostEl, this.hostScopeMap, this.globalScopes);
                 var props = resolveValues(selectors);
-                styleEl.textContent = executeTemplate(scope.template, props);
+                styleEl.innerHTML = executeTemplate(scope.template, props);
             }
         }
     };
@@ -874,25 +789,23 @@ if (!win.__stencil_cssshim && needsShim()) {
     win.__stencil_cssshim = new CustomStyle(win, document);
 }
 
-    // Figure out currentScript (for IE11, since it does not support currentScript)
-    var regex = /\/cardinal(\.esm)?\.js($|\?|#)/;
-    var scriptElm = currentScript || Array.from(doc.querySelectorAll('script')).find(function(s) {
-      return regex.test(s.src) || s.getAttribute('data-stencil-namespace') === "cardinal";
-    });
-
-    var resourcesUrl = scriptElm ? scriptElm.getAttribute('data-resources-url') || scriptElm.src : '';
-    var start = function() {
-      var url = new URL('./p-f17b69a7.system.js', resourcesUrl);
-      System.import(url.href);
-    };
-
-    if (win.__stencil_cssshim) {
-      win.__stencil_cssshim.initShim().then(start);
-    } else {
-      start();
-    }
-
-    // Note: using .call(window) here because the self-executing function needs
-    // to be scoped to the window object for the ES6Promise polyfill to work
+var doc = document;
+var allScripts = doc.querySelectorAll('script');
+var scriptElm;
+for (var x = allScripts.length - 1; x >= 0; x--) {
+  scriptElm = allScripts[x];
+  if (scriptElm.src || scriptElm.hasAttribute('data-resources-url')) {
+    break;
   }
-}).call(window);
+}
+var resourcesUrl = scriptElm ? scriptElm.getAttribute('data-resources-url') || scriptElm.src : '';
+var start = function() {
+  var url = new URL('./p-6cccc685.system.js', resourcesUrl);
+  System.import(url.href);
+};
+
+if (win.__stencil_cssshim) {
+  win.__stencil_cssshim.initShim().then(start);
+} else {
+  start();
+}

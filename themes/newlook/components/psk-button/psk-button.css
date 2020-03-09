@@ -46,6 +46,7 @@
     font-size: 1.3125rem;
     width: 200px;
     border-radius: 0;
+    border-style: none;
 }
 
 :host-context(.actions) .btn.btn-primary:hover {
