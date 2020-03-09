@@ -10,7 +10,7 @@
             "icon": "fa-bars",
             "type": "route",
             "component": "psk-page-loader",
-            "exact": true,
+            "exact": false,
             "indexed": true,
             "pagePrefix": "?",
             "historyType": "query"
@@ -31,7 +31,9 @@
                 "name": "Edit Organization",
                 "path": "/organization/edit",
                 "icon": "fa-cog",
-                "pageSrc": "edit-organization.html"
+                "pageSrc": "edit-organization.html",
+                "indexed": false
+
             }
         ]
     }

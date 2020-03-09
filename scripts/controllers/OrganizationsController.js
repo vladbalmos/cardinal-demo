@@ -16,6 +16,9 @@ export default class OrganizationsController extends BindableController {
             return this.setModel(data);
         });
 
+        this._setupFormData();
+
+        // ================= Event Listeners
         this.receive('openFeedback', (e) => {
             this.feedbackEmitter = e.detail;
         });
@@ -26,8 +29,7 @@ export default class OrganizationsController extends BindableController {
             e.stopImmediatePropagation();
 
             const orgUid = e.data;
-            this.orgModel.populateFormData(orgUid);
-            this._redirect('/?organization/edit');
+            this._redirect(`/?organization/edit#orgUid=${orgUid}`);
         });
 
         // Remove organization request
@@ -37,16 +39,34 @@ export default class OrganizationsController extends BindableController {
             const orgUid = e.data;
             this._removeOrganization(orgUid);
         });
-        element.addEventListener('submit', (e) => {
+        // Add new key:value config pair for Kubernetes cluster
+        this.receive('org:add-kubernetes-config', (e) => {
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            this.orgModel.prepareNewKubernetesConfig();
+        });
+        // Remove key:value config pair for Kubernetes cluster
+        this.receive('org:remove-kubernetes-config', (e) => {
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            this.orgModel.removeKubernetesConfig(e.data);
+        });
+        // Save organization
+        this.receive('org:save', (e) => {
             e.preventDefault();
             e.stopImmediatePropagation();
             this.orgModel.saveOrganization((err, data) => {
                 this._onSaveOrganization(err, data);
             });
-        }, true)
+        });
+        window.addEventListener('hashchange', (e) => {
+            this._setupFormData();
+        })
+
     }
 
     /**
+     * Remove organization
      * @param {string} orgUId
      */
     _removeOrganization(orgUid) {
@@ -76,6 +96,10 @@ export default class OrganizationsController extends BindableController {
         this._redirect('/?home');
     }
 
+    /**
+     * Show an error alert
+     * @param {Error|object|string} err
+     */
     _showError(err) {
         let errMessage;
         if (err instanceof Error) {
@@ -97,6 +121,12 @@ export default class OrganizationsController extends BindableController {
         this._render('psk-route-redirect', { url });
     }
 
+    /**
+     * Render new child in the current element
+     * @param {string} tag
+     * @param {object} attributes
+     * @return {Element}
+     */
     _render(tag, attributes) {
         attributes = attributes || {};
         const el = document.createElement(tag);
@@ -107,5 +137,51 @@ export default class OrganizationsController extends BindableController {
 
         this._element.appendChild(el);
         return el;
+    }
+
+    /**
+     * Parse hash fragment params given as:
+     * #var1=2&var2=3&var3=4
+     *
+     * @return {object}
+     */
+    _parseHashFragmentParams() {
+        const hashParams = window.location.hash.substr(1);
+        const segments = hashParams.split('&');
+        const params = {};
+
+        for (let i = 0; i < segments.length; i++) {
+            const paramSegments = segments[i].split('=');
+            const key = paramSegments.shift();
+            const value = paramSegments.join('=');
+
+            params[key] = value;
+        }
+        return params;
+    }
+
+    /**
+     * Parse the current url and detect if we're creating a new organization
+     * or editing an existing one
+     */
+    _setupFormData() {
+        const searchQuery = window.location.search.substr(1);
+        const segments = searchQuery.split('/');
+        const entity = segments.shift();
+        const action = segments.shift();
+        const hashParams = this._parseHashFragmentParams();
+
+        if (entity === 'organization') {
+            switch (action) {
+                case 'create':
+                    this.orgModel.clearFormData();
+                    return;
+                case 'edit':
+                    if (typeof hashParams.orgUid !== 'undefined') {
+                        this.orgModel.populateFormData(hashParams.orgUid);
+                    }
+                    return;
+            }
+        }
     }
 }

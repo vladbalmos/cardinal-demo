@@ -12,19 +12,16 @@ export default class OrganizationModel {
                 {
                     name: "Test",
                     uid: 1,
-                    clustersConfiguration: {
-
-                    }
+                    kubernetesConfig: []
                 },
                 {
                     name: "Code932",
                     uid: 2,
-                    clustersConfiguration: {
-
-                    }
+                    kubernetesConfig: []
                 }
             ],
             editForm: {
+                formTitle: 'Create Organization',
                 name: {
                     label: 'Organization Name',
                     name: 'name',
@@ -32,13 +29,12 @@ export default class OrganizationModel {
                     placeholder: '',
                     value: '',
                 },
-                clusterConfiguration: [{
-                    key: 'Test',
-                    value: 'Something else'
-                }],
+                kubernetesConfig: [],
                 id: ''
             }
         }
+
+        this.prepareNewKubernetesConfig();
     }
 
     /**
@@ -102,7 +98,7 @@ export default class OrganizationModel {
             this._addOrganization(callback)
         }
 
-        this._clearFormData();
+        this.clearFormData();
     }
 
     /**
@@ -123,11 +119,73 @@ export default class OrganizationModel {
      * @param {string} uid
      */
     populateFormData(uid) {
+        this.data.editForm.kubernetesConfig = []
+
         for (const org of this.data.organizations) {
-            if (org.uid == uid) {
-                this.data.editForm.name.value = org.name;
-                this.data.editForm.id = org.uid;
+            if (org.uid != uid) {
+                continue;
             }
+
+            this.data.editForm.formTitle = 'Edit Organization';
+            this.data.editForm.name.value = org.name;
+            this.data.editForm.id = org.uid;
+
+            for (const cfg of org.kubernetesConfig) {
+                this.data.editForm.kubernetesConfig.push({
+                    key: {
+                        label: 'Key',
+                        name: 'Key',
+                        value: cfg.key
+                    },
+                    value: {
+                        label: 'Value',
+                        name: 'Value',
+                        value: cfg.value
+                    },
+                    id: {
+                        value: cfg.id
+                    }
+                });
+            }
+        }
+    }
+
+    /**
+     * Add new key:value empty pair in the kubernetes config section
+     */
+    prepareNewKubernetesConfig() {
+        const id = (Date.now() + Math.random()).toString().replace('.', '');
+        this.data.editForm.kubernetesConfig.push({
+            key: {
+                label: 'Key',
+                name: 'Key'
+            },
+            value: {
+                label: 'Value',
+                name: 'Value'
+            },
+            id: {
+                value: id
+            }
+        });
+    }
+
+    /**
+     * @param {string} configId
+     */
+    removeKubernetesConfig(configId) {
+        for (let i = 0; i < this.data.editForm.kubernetesConfig.length; i++) {
+            const cfg = this.data.editForm.kubernetesConfig[i];
+
+            if (typeof cfg.id === 'undefined') {
+                continue;
+            }
+
+            if (cfg.id.value !== configId) {
+                continue;
+            }
+
+            this.data.editForm.kubernetesConfig.splice(i, 1);
         }
     }
 
@@ -147,6 +205,9 @@ export default class OrganizationModel {
         }
 
         org.name = editFormData.name.value;
+        org.kubernetesConfig = [];
+        this._saveKubernetesConfig(org);
+
         callback(null, org);
     }
 
@@ -163,13 +224,25 @@ export default class OrganizationModel {
         const newOrganization = {
             name: editFormData.name.value,
             uid: this._autoIncrementLastUid(),
-            clustersConfiguration: {
-
-            }
+            kubernetesConfig: []
         }
+        this._saveKubernetesConfig(newOrganization);
 
         this.data.organizations.push(newOrganization);
         callback(null, newOrganization);
+    }
+
+    /**
+     * @param {object} org
+     */
+    _saveKubernetesConfig(org) {
+        for (const cfg of this.data.editForm.kubernetesConfig) {
+            org.kubernetesConfig.push({
+                key: cfg.key.value,
+                value: cfg.value.value,
+                id: cfg.id.value
+            })
+        }
     }
 
     _autoIncrementLastUid() {
@@ -183,9 +256,12 @@ export default class OrganizationModel {
         return maxUid + 1;
     }
 
-    _clearFormData() {
+    clearFormData() {
+        this.data.editForm.formTitle = 'Create Organization';
         this.data.editForm.name.value = '';
         this.data.editForm.id = '';
+        this.data.editForm.kubernetesConfig = [];
+        this.prepareNewKubernetesConfig();
     }
 
     static getInstance() {

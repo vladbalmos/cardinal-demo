@@ -3,8 +3,9 @@ export default class ApplicationController {
         this._element = element;
     }
 
-    receive(eventName, htmlElement, callback) {
+    receive(eventName, htmlElement, callback, options) {
         if (typeof htmlElement === 'function') {
+            options = callback;
             callback = htmlElement;
             htmlElement = null;
         }
@@ -16,11 +17,32 @@ export default class ApplicationController {
         }
 
         if (htmlElement) {
-            htmlElement.addEventListener(eventName, callback);
+            htmlElement.addEventListener(eventName, callback, options);
             return;
         }
 
-        this._element.addEventListener(eventName, callback);
+        this._element.addEventListener(eventName, callback, options);
+    }
+
+    dismiss(eventName, htmlElement, callback, options) {
+        if (typeof htmlElement === 'function') {
+            options = callback;
+            callback = htmlElement;
+            htmlElement = null;
+        }
+
+        if (!eventName || eventName.trim().length === 0 ||
+            !callback || typeof callback !== 'function' ||
+            !this._element || !this._element.removeEventListener) {
+            return;
+        }
+
+        if (htmlElement) {
+            htmlElement.removeEventListener(eventName, callback, options);
+            return;
+        }
+
+        this._element.removeEventListener(eventName, callback, options);
     }
 
     send(eventName, data, htmlElement) {
