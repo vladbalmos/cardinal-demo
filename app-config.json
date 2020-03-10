@@ -33,7 +33,13 @@
                 "icon": "fa-cog",
                 "pageSrc": "edit-organization.html",
                 "indexed": false
-
+            },
+            {
+                "name": "Manage Clusters",
+                "path": "/clusters/index",
+                "icon": "fa-cog",
+                "pageSrc": "clusters/index.html",
+                "indexed": false
             }
         ]
     }

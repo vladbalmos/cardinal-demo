@@ -1,16 +1,9 @@
-import BindableController from "./base-controllers/BindableController.js";
-import OrganizationModel from "../models/OrganizationModel.js"
+import BPDController from "./base-controllers/BPDController.js";
 
-export default class OrganizationsController extends BindableController {
+export default class OrganizationsController extends BPDController {
 
     constructor(element) {
         super(element);
-
-        this.feedbackEmitter = null;
-
-        // Model is singleton in order to preserve state across
-        // different same controller instances
-        this.orgModel = OrganizationModel.getInstance();
 
         this.model = this.orgModel.registerBindings((data) => {
             return this.setModel(data);
@@ -18,10 +11,11 @@ export default class OrganizationsController extends BindableController {
 
         this._setupFormData();
 
-        // ================= Event Listeners
+        // ============== Events Listeners
         this.receive('openFeedback', (e) => {
             this.feedbackEmitter = e.detail;
         });
+
 
         // Edit organization request
         this.receive('org:edit', (e) => {
@@ -29,7 +23,7 @@ export default class OrganizationsController extends BindableController {
             e.stopImmediatePropagation();
 
             const orgUid = e.data;
-            this._redirect(`/?organization/edit#orgUid=${orgUid}`);
+            this.redirect(`/?organization/edit#orgUid=${orgUid}`);
         });
 
         // Remove organization request
@@ -58,6 +52,13 @@ export default class OrganizationsController extends BindableController {
             this.orgModel.saveOrganization((err, data) => {
                 this._onSaveOrganization(err, data);
             });
+        });
+        this.receive('org:manage-clusters', (e) => {
+            e.preventDefault();
+            e.stopImmediatePropagation();
+
+            const orgUid = e.data;
+            this.redirect(`/?clusters/index#orgUid=${orgUid}`);
         });
         window.addEventListener('hashchange', (e) => {
             this._setupFormData();
@@ -88,77 +89,14 @@ export default class OrganizationsController extends BindableController {
      */
     _onSaveOrganization(err, data) {
         if (err) {
-            this._showError(err);
+            this.showError(err);
             return;
         }
 
         // How do I redirect to homepage from here?
-        this._redirect('/?home');
+        this.redirect('/?home');
     }
 
-    /**
-     * Show an error alert
-     * @param {Error|object|string} err
-     */
-    _showError(err) {
-        let errMessage;
-        if (err instanceof Error) {
-            errMessage = err.message;
-        } else if (typeof err === 'object') {
-            errMessage = err.toString();
-        } else {
-            errMessage = err;
-        }
-        this.feedbackEmitter(errMessage, "Validation Error", "alert-danger");
-    }
-
-    /**
-     * Redirect to another url
-     *
-     * @param {string} url
-     */
-    _redirect(url) {
-        this._render('psk-route-redirect', { url });
-    }
-
-    /**
-     * Render new child in the current element
-     * @param {string} tag
-     * @param {object} attributes
-     * @return {Element}
-     */
-    _render(tag, attributes) {
-        attributes = attributes || {};
-        const el = document.createElement(tag);
-        for (const attr in attributes) {
-            const value = attributes[attr];
-            el.setAttribute(attr, value);
-        }
-
-        this._element.appendChild(el);
-        return el;
-    }
-
-    /**
-     * Parse hash fragment params given as:
-     * #var1=2&var2=3&var3=4
-     *
-     * @return {object}
-     */
-    _parseHashFragmentParams() {
-        const hashParams = window.location.hash.substr(1);
-        const segments = hashParams.split('&');
-        const params = {};
-
-        for (let i = 0; i < segments.length; i++) {
-            const paramSegments = segments[i].split('=');
-            const key = paramSegments.shift();
-            const value = paramSegments.join('=');
-
-            params[key] = value;
-        }
-        return params;
-    }
 
     /**
      * Parse the current url and detect if we're creating a new organization
@@ -169,7 +107,7 @@ export default class OrganizationsController extends BindableController {
         const segments = searchQuery.split('/');
         const entity = segments.shift();
         const action = segments.shift();
-        const hashParams = this._parseHashFragmentParams();
+        const hashParams = this.parseHashFragmentParams();
 
         if (entity === 'organization') {
             switch (action) {
