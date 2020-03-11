@@ -94,7 +94,6 @@ export default class ClusterModel {
     _updateCluster(callback) {
         const editFormData = this.data.editForm;
         const cluster = this.getCluster(editFormData.id);
-        console.log(cluster.config);
 
         if (!cluster) {
             return callback(new Error("Cluster not found"));
@@ -110,10 +109,9 @@ export default class ClusterModel {
 
         cluster.name = editFormData.name.value;
         cluster.config.configRepoUrl = editFormData.configRepoUrl.value;
-        cluster.config.autoStop = editFormData.autoStop.value;
+        cluster.config.autoStop = parseInt(editFormData.autoStop.value, 10);
 
         callback(null, cluster);
-        console.log(cluster.config);
         this.clearFormData();
     }
 
@@ -245,6 +243,7 @@ export default class ClusterModel {
             this.data.editForm.name.value = cluster.name;
             this.data.editForm.configRepoUrl.value = cluster.config.configRepoUrl;
             this.data.editForm.autoStop.value = cluster.config.autoStop;
+            this.data.editForm.autoStop.checked = parseInt(cluster.config.autoStop, 10) ? true : false;
             this.data.editForm.id = cluster.id;
         }
     }
