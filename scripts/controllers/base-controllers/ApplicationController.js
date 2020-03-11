@@ -3,7 +3,7 @@ export default class ApplicationController {
         this._element = element;
     }
 
-    receive(eventName, htmlElement, callback, options) {
+    on(eventName, htmlElement, callback, options) {
         if (typeof htmlElement === 'function') {
             options = callback;
             callback = htmlElement;
@@ -24,7 +24,7 @@ export default class ApplicationController {
         this._element.addEventListener(eventName, callback, options);
     }
 
-    dismiss(eventName, htmlElement, callback, options) {
+    off(eventName, htmlElement, callback, options) {
         if (typeof htmlElement === 'function') {
             options = callback;
             callback = htmlElement;

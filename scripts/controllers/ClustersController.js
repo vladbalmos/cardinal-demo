@@ -18,7 +18,7 @@ export default class ClustersController extends BPDController {
         this._setupFormData();
 
         // ============== Events Listeners
-        this.receive('openFeedback', (e) => {
+        this.on('openFeedback', (e) => {
             this.feedbackEmitter = e.detail;
             // Set the current organization
             // after the feedback list has been initialized
@@ -27,7 +27,7 @@ export default class ClustersController extends BPDController {
         })
 
         // Remove cluster request
-        this.receive('cluster:remove', (e) => {
+        this.on('cluster:remove', (e) => {
             e.preventDefault();
             e.stopImmediatePropagation();
             const id = e.data;
@@ -35,7 +35,7 @@ export default class ClustersController extends BPDController {
         })
 
         // Edit cluster request
-        this.receive('cluster:edit', (e) => {
+        this.on('cluster:edit', (e) => {
             e.preventDefault();
             e.stopImmediatePropagation();
 
@@ -43,7 +43,7 @@ export default class ClustersController extends BPDController {
             this.redirect(`/?cluster/edit#id=${id}`);
         });
         // Save cluster
-        this.receive('cluster:save', (e) => {
+        this.on('cluster:save', (e) => {
             e.preventDefault();
             e.stopImmediatePropagation();
             this.clusterModel.saveCluster((err, data) => {

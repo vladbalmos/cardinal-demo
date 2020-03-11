@@ -12,13 +12,13 @@ export default class OrganizationsController extends BPDController {
         this._setupFormData();
 
         // ============== Events Listeners
-        this.receive('openFeedback', (e) => {
+        this.on('openFeedback', (e) => {
             this.feedbackEmitter = e.detail;
         });
 
 
         // Edit organization request
-        this.receive('org:edit', (e) => {
+        this.on('org:edit', (e) => {
             e.preventDefault();
             e.stopImmediatePropagation();
 
@@ -27,33 +27,33 @@ export default class OrganizationsController extends BPDController {
         });
 
         // Remove organization request
-        this.receive('org:remove', (e) => {
+        this.on('org:remove', (e) => {
             e.preventDefault();
             e.stopImmediatePropagation();
             const orgUid = e.data;
             this._removeOrganization(orgUid);
         });
         // Add new key:value config pair for Kubernetes cluster
-        this.receive('org:add-kubernetes-config', (e) => {
+        this.on('org:add-kubernetes-config', (e) => {
             e.preventDefault();
             e.stopImmediatePropagation();
             this.orgModel.prepareNewKubernetesConfig();
         });
         // Remove key:value config pair for Kubernetes cluster
-        this.receive('org:remove-kubernetes-config', (e) => {
+        this.on('org:remove-kubernetes-config', (e) => {
             e.preventDefault();
             e.stopImmediatePropagation();
             this.orgModel.removeKubernetesConfig(e.data);
         });
         // Save organization
-        this.receive('org:save', (e) => {
+        this.on('org:save', (e) => {
             e.preventDefault();
             e.stopImmediatePropagation();
             this.orgModel.saveOrganization((err, data) => {
                 this._onSaveOrganization(err, data);
             });
         });
-        this.receive('org:manage-clusters', (e) => {
+        this.on('org:manage-clusters', (e) => {
             e.preventDefault();
             e.stopImmediatePropagation();
 
