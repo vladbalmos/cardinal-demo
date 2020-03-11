@@ -1,0 +1,24 @@
+<psk-page title="Blockchain Platforms Deployment">
+    <psk-form controller-name="ClustersController">
+        <psk-card title="@editForm.formTitle">
+            <psk-form-row>
+                <psk-text-input view-model="editForm.name"></psk-text-input>
+            </psk-form-row>
+
+            <psk-form-row>
+                <psk-text-input view-model="editForm.configRepoUrl"></psk-text-input>
+            </psk-form-row>
+
+            <psk-form-row>
+                <psk-checkbox view-model="editForm.autoStop"></psk-checkbox>
+            </psk-form-row>
+
+            <psk-form-row>
+                <psk-input type="hidden" name="id" value="@editForm.id"></psk-input>
+                <psk-button label="Save" event-name="cluster:save"></psk-button>
+            </psk-form-row>
+            <psk-list-feedbacks>
+            </psk-list-feedbacks>
+        </psk-card>
+    </psk-form>
+</psk-page>
