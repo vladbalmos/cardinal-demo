@@ -42,7 +42,7 @@ export default class OrganizationModel {
      * @return {object|undefined}
      */
     getOrganization(uid) {
-        for (let org of this.data.organizations) {
+        for (const org of this.data.organizations) {
             if (org.uid != uid) {
                 continue;
             }
@@ -245,6 +245,9 @@ export default class OrganizationModel {
         }
     }
 
+    /**
+     * @return {Number}
+     */
     _autoIncrementLastUid() {
         let maxUid = 0;
         for (const org of this.data.organizations) {

@@ -36,9 +36,23 @@
             },
             {
                 "name": "Manage Clusters",
-                "path": "/clusters/index",
+                "path": "/cluster/index",
                 "icon": "fa-cog",
                 "pageSrc": "clusters/index.html",
+                "indexed": false
+            },
+            {
+                "name": "Edit Cluster",
+                "path": "/cluster/edit",
+                "icon": "fa-cog",
+                "pageSrc": "clusters/edit.html",
+                "indexed": false
+            },
+            {
+                "name": "Create Cluster",
+                "path": "/cluster/create",
+                "icon": "fa-cog",
+                "pageSrc": "clusters/edit.html",
                 "indexed": false
             }
         ]

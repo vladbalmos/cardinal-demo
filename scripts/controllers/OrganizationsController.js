@@ -58,7 +58,7 @@ export default class OrganizationsController extends BPDController {
             e.stopImmediatePropagation();
 
             const orgUid = e.data;
-            this.redirect(`/?clusters/index#orgUid=${orgUid}`);
+            this.redirect(`/?cluster/index#orgUid=${orgUid}`);
         });
         window.addEventListener('hashchange', (e) => {
             this._setupFormData();
@@ -93,7 +93,6 @@ export default class OrganizationsController extends BPDController {
             return;
         }
 
-        // How do I redirect to homepage from here?
         this.redirect('/?home');
     }
 
