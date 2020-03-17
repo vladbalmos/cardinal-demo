@@ -21,7 +21,6 @@ export default class OrganizationModel {
                 }
             ],
             editForm: {
-                formTitle: 'Create Organization',
                 name: {
                     label: 'Organization Name',
                     name: 'name',
@@ -92,6 +91,7 @@ export default class OrganizationModel {
      * @param {callback} callback
      */
     saveOrganization(callback) {
+        this.data.test = 1;
         if (this.data.editForm.id) {
             this._updateOrganization(callback);
         } else {
@@ -112,6 +112,12 @@ export default class OrganizationModel {
 
         this.modelIsBinded = true;
         this.data = bindModelCallback(this.data);
+        this.data.addExpression('inEditMode', function () {
+            return this.editForm.id;
+        });
+        this.data.addExpression('inCreateMode', function () {
+            return !this.editForm.id;
+        });
         return this.data;
     }
 
@@ -126,7 +132,6 @@ export default class OrganizationModel {
                 continue;
             }
 
-            this.data.editForm.formTitle = 'Edit Organization';
             this.data.editForm.name.value = org.name;
             this.data.editForm.id = org.uid;
 
@@ -260,7 +265,6 @@ export default class OrganizationModel {
     }
 
     clearFormData() {
-        this.data.editForm.formTitle = 'Create Organization';
         this.data.editForm.name.value = '';
         this.data.editForm.id = '';
         this.data.editForm.kubernetesConfig = [];

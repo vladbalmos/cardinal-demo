@@ -165,6 +165,12 @@ export default class ClusterModel {
 
         this.modelIsBinded = true;
         this.data = bindModelCallback(this.data);
+        this.data.addExpression('inEditMode', function () {
+            return this.editForm.id;
+        });
+        this.data.addExpression('inCreateMode', function () {
+            return !this.editForm.id;
+        });
         return this.data;
     }
 
