@@ -8,6 +8,7 @@ export default class OrganizationModel {
     constructor() {
         this.modelIsBinded = false;
         this.data = {
+            test: 0,
             organizations: [
                 {
                     name: "Test",
@@ -91,7 +92,6 @@ export default class OrganizationModel {
      * @param {callback} callback
      */
     saveOrganization(callback) {
-        this.data.test = 1;
         if (this.data.editForm.id) {
             this._updateOrganization(callback);
         } else {
@@ -118,6 +118,14 @@ export default class OrganizationModel {
         this.data.addExpression('inCreateMode', function () {
             return !this.editForm.id;
         });
+        //this.data.addExpression('promise', function () {
+            //return new Promise((resolve) => {
+                //setTimeout(() => {
+                    //resolve(true);
+                //}, 1 * 1000);
+
+            //});
+        //}, 'test', 'organizations');
         return this.data;
     }
 
