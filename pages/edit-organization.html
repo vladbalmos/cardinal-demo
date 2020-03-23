@@ -1,16 +1,9 @@
 <psk-page title="Blockchain Platforms Deployment">
     <psk-form controller-name="OrganizationsController">
         <psk-condition condition="@inEditMode">
-            <h2>Edit Organization</h2>
+            <h2 slot="condition-true">Edit Organization</h2>
+            <h2 slot="condition-false">Create Organization</h2>
         </psk-condition>
-
-        <psk-condition condition="@inCreateMode">
-            <h2>Create Organization</h2>
-        </psk-condition>
-
-        <!--<psk-condition condition="@promise">-->
-            <!--<h2>Test</h2>-->
-        <!--</psk-condition>-->
 
         <psk-form-row>
             <psk-text-input view-model="editForm.name"></psk-text-input>

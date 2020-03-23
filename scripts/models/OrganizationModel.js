@@ -115,17 +115,6 @@ export default class OrganizationModel {
         this.data.addExpression('inEditMode', function () {
             return this.editForm.id;
         });
-        this.data.addExpression('inCreateMode', function () {
-            return !this.editForm.id;
-        });
-        //this.data.addExpression('promise', function () {
-            //return new Promise((resolve) => {
-                //setTimeout(() => {
-                    //resolve(true);
-                //}, 1 * 1000);
-
-            //});
-        //}, 'test', 'organizations');
         return this.data;
     }
 

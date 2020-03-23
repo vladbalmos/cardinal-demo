@@ -168,9 +168,6 @@ export default class ClusterModel {
         this.data.addExpression('inEditMode', function () {
             return this.editForm.id;
         });
-        this.data.addExpression('inCreateMode', function () {
-            return !this.editForm.id;
-        });
         return this.data;
     }
 
