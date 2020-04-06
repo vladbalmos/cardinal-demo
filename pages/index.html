@@ -11,5 +11,14 @@
             </psk-for-each>
         <psk-link page="Create Organization">Create new organization</psk-link>
         </psk-chapter>
+
+        <psk-chapter title="Upload test">
+            <ul id="files-for-upload">
+            </ul>
+            <p><psk-files-chooser label="Choose files" event-name="files-selected"></psk-files-chooser></p>
+            <p><psk-button label="Upload" button-class="btn btn-primary" event-name="upload-files"></psk-button></p>
+            <p><psk-button label="Upload single file" button-class="btn btn-primary" event-name="upload-single-file"></psk-button></p>
+        </psk-chapter>
+
     </psk-container>
 </psk-page>
